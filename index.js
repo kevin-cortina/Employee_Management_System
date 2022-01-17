@@ -6,11 +6,12 @@ const inquirer = require('inquirer');
 // const generatePage = require('../src/template')
 
 
-class TeamMember {
-    constructor () {
-        this.teamMember;
-        this.profile = [];
-    }
+// class TeamMember {
+//     constructor () {
+//         this.teamMember;
+//         this.profile = [];
+//     }
+
 //manager prompt
 getManager() {
     inquirer.prompt([
@@ -124,7 +125,6 @@ async getMembers() {
         return console.log(this.profile);
     }
 });
-}
 }
 
 module.exports = TeamMember;
