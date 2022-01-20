@@ -150,7 +150,7 @@ case "Add an employee":
         db.query("SELECT * FROM employees", (err, employeeResult) => {
             let employeeChoices = [];
                 for (let i = 0; i < employeeResult.length; i++) {
-                    let fullName = [employeeResult[i].rolesId];
+                    let fullName = [employeeResult[i].first_name, employeeResult[i].last_name];
                     employeeChoices.push(fullName.join(" "));
                 }
             db.query("SELECT * FROM roles", (err, roleResult) => {
@@ -175,7 +175,7 @@ case "Add an employee":
                         ])
                         .then(response => {
                         db.query("SELECT * FROM roles WHERE rolesId = ?", response.role, (err, roleResponse) => {
-                        db.query("UPDATE employees SET roles_id = ? WHERE first_name = ? AND last_name = ?", [roleResponse.roles_id, response.employee.split(" ")[0], response.employee.split(" ")[1]], (err, employeeResponse) => {
+                        db.query("UPDATE employees SET id = ? WHERE first_name = ? AND last_name = ?", [roleResponse.roles_id, response.employee.split(" ")[0], response.employee.split(" ")[1]], (err, employeeResponse) => {
                         err ? console.log(err) : console.log(`Updated ${response.employee.split(" ")[0]} ${response.employee.split(" ")[1]}'s role.`);
                         start();
                         });
