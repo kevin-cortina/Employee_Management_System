@@ -22,11 +22,11 @@
   - [Questions](#questions)
  
   ## Installation
-  npm -i inquirer,  to install inquirer. 
-  mysql -u root -p, to set up mysql
-  source schema.sql, to set schema
-  source seeds.sql, to input base data
-  node index.js, to run the application.
+  - npm -i inquirer,  to install inquirer. 
+  - mysql -u root -p, to set up mysql
+  - source schema.sql, to set schema
+  - source seeds.sql, to input base data
+  - node index.js, to run the application.
   
   ## Contributing
   Feel free to add or change any code.
