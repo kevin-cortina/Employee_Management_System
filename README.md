@@ -3,10 +3,13 @@
   # Employee_Management_System
   
   ## Description
-  This application helps organize a teams contact information by creating an online display easily accessible by members of the team.
+  This application helps organize a teams information by creating a display easily accessible by members of the team. User can add departments, add roles, and add/ update employees. 
   
   ## Video Link
+  https://drive.google.com/file/d/1UcoQ856XkkTCEjASjjmR0q5IOLw6_nQq/view?usp=sharing
   
+  ## Screenshot of application
+   ![Screenshot of command-line](./assets/pictures/commandline.png)
   
   ## Table of Contents
   - [Installation](#installation)
@@ -20,8 +23,10 @@
  
   ## Installation
   npm -i inquirer,  to install inquirer. 
+  mysql -u root -p, to set up mysql
+  source schema.sql, to set schema
+  source seeds.sql, to input base data
   node index.js, to run the application.
-
   
   ## Contributing
   Feel free to add or change any code.
@@ -32,7 +37,7 @@
   
 
   ## Features
-  Inquirer, Node.js, Object-Orientated-Programming, Bootstrap.
+  Inquirer, Node.js, Express.js
   
   ## Tests
   node run tests, to run tests.
