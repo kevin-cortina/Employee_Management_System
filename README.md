@@ -5,9 +5,6 @@
   ## Description
   This application helps organize a teams information by creating a display easily accessible by members of the team. User can add departments, add roles, and add/ update employees. 
   
-  ## Video Link
-  https://drive.google.com/file/d/1UcoQ856XkkTCEjASjjmR0q5IOLw6_nQq/view?usp=sharing
-  
   ## Screenshot of application
    ![Screenshot of command-line](./assets/pictures/commandline.png)
   
