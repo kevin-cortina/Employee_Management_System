@@ -5,7 +5,7 @@ const db = mysql.createConnection(
     {
         host: "localhost",
         user: "root",
-        password: "",
+        password: "rootroot",
         database: "employee_management_db"
     },
     console.log(`Connected to EMS_db.`)
@@ -95,99 +95,102 @@ const start = () => {
                     .catch(err => console.log(err));
                 });
                 break;
-case "Add an employee":
-    db.query("SELECT * FROM roles", (err, roleResult) => {
-        let roleChoices = [];
-        for (let i = 1; i < roleResult.length; i++) {
-            roleChoices.push(roleResult[i].job_title);
-        }
-        db.query("SELECT * FROM employees", (err, managerResult) => {
-            let managerChoices = [];
-            for (let i = 0; i < managerResult.length; i++) {
-                let fullName = [managerResult[i].manager_id];
-                managerChoices.push(fullName.join(" "));
-            }
-            inquirer
-                .prompt([
-                    {
-                        type: "input",
-                        name: "firstname",
-                        message: "What is the employee's first name?"
-                    },
-                    {
-                        type: "input",
-                        name: "lastname",
-                        message: "What is the employee's last name?"
-                    },
-                    {
-                        type: "list",
-                        name: "role",
-                        message: "What is the employee's role?",
-                        choices: roleChoices
-                    },
-                    {
-                        type: "list",
-                        name: "manager",
-                        message: "Who is the employee's manager?",
-                        choices: managerChoices
+            case "Add an employee":
+                db.query("SELECT * FROM roles", (err, roleResult) => {
+                    let roleChoices = [];
+                    for (let i = 0; i < roleResult.length; i++) {
+                        roleChoices.push(roleResult[i].job_title);
                     }
-                ])
-                .then(response => {
-                    db.query("SELECT * FROM roles WHERE job_title = ?", response.role, (err, result) => {
-                    db.query("SELECT * FROM employees WHERE manager_id = ?", response.manager, (err, managerResults) => {
-                    db.query("INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)", [response.firstname, response.lastname, result.rolesId, managerResults.manager_id], (err, result) => {
-                        err ? console.log(err) : console.log(`${response.firstname} ${response.lastname} added to Employees.`);
-                        start();
+                    db.query("SELECT * FROM employees", (err, managerResult) => {
+                        let managerChoices = [];
+                        for (let i = 0; i < managerResult.length; i++) {
+                            let fullName = [managerResult[i].first_name + " " + managerResult[i].last_name];
+                            let employeeId =[managerResult[i].id]
+                            managerChoices.push(employeeId.join(" ") + (" ") + fullName.join(" ") );
+                        }
+                        inquirer
+                            .prompt([
+                                {
+                                    type: "input",
+                                    name: "firstname",
+                                    message: "What is the employee's first name?"
+                                },
+                                {
+                                    type: "input",
+                                    name: "lastname",
+                                    message: "What is the employee's last name?"
+                                },
+                                {
+                                    type: "list",
+                                    name: "role",
+                                    message: "What is the employee's role?",
+                                    choices: roleChoices
+                                },
+                                {
+                                    type: "list",
+                                    name: "manager",
+                                    message: "Who is the employee's manager?",
+                                    choices: managerChoices
+                                }
+                            ])
+                            .then(response => {
+                                db.query("SELECT * FROM roles WHERE job_title = ?", response.role, (err, roleResults) => {
+                                db.query("SELECT * FROM employees WHERE employee_id = ?", response.manager, (err, managerResults) => {
+                                db.query("INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)", [response.firstname, response.lastname, roleResults[0].rolesId, managerResult], (err, result) => {
+                                    err ? console.log(err) : console.log(`${response.firstname} ${response.lastname} added to Employees.`), 
+                                    // console.log(managerResult), console.log(roleResult);
+                                    console.log(managerResults), console.log(roleResults[0].salary);
+                                    start();
+                            });
+                            });
+                            });
+                            })
+                            .catch(err => console.log(err));
+                    });
                 });
-                });
-                });
-                })
-                .catch(err => console.log(err));
-        });
-    });
     break;
-    case "Update an employee role":
-        db.query("SELECT * FROM employees", (err, employeeResult) => {
-            let employeeChoices = [];
-                for (let i = 0; i < employeeResult.length; i++) {
-                    let fullName = [employeeResult[i].first_name, employeeResult[i].last_name];
-                    employeeChoices.push(fullName.join(" "));
-                }
-            db.query("SELECT * FROM roles", (err, roleResult) => {
-                let roleChoices = [];
-                for (let i = 1; i < roleResult.length; i++) {
-                    roleChoices.push(roleResult[i].job_title);
-                }
-                inquirer
-                 .prompt([
-                    {
-                        type: "list",
-                        name: "employee",
-                        message: "Which employee's role do you want to update?",
-                        choices: employeeChoices
-                    },
-                    {
-                        type: "list",
-                        name: "role",
-                        message: "Which role do you want to assign to the selected employee?",
-                        choices: roleChoices
-                    }
-                        ])
-                        .then(response => {
-                        db.query("SELECT * FROM roles WHERE rolesId = ?", response.role, (err, roleResponse) => {
-                        db.query("UPDATE employees SET id = ? WHERE first_name = ? AND last_name = ?", [roleResponse.roles_id, response.employee.split(" ")[0], response.employee.split(" ")[1]], (err, employeeResponse) => {
-                        err ? console.log(err) : console.log(`Updated ${response.employee.split(" ")[0]} ${response.employee.split(" ")[1]}'s role.`);
-                        start();
-                        });
-                        });
-                        })
-                 .catch(err => console.log(err));
-            });
-        });
-        break;
-    default:
-        start();
-}})
+            // case "Update an employee role":
+            //     db.query("SELECT * FROM employees", (err, employeeResult) => {
+            //         let employeeChoices = [];
+            //             for (let i = 0; i < employeeResult.length; i++) {
+            //                 let fullName = [employeeResult[i].first_name, employeeResult[i].last_name];
+            //                 employeeChoices.push(fullName.join(" "));
+            //             }
+            //         db.query("SELECT * FROM roles", (err, roleResult) => {
+            //             let roleChoices = [];
+            //             for (let i = 1; i < roleResult.length; i++) {
+            //                 roleChoices.push(roleResult[i].job_title);
+            //             }
+            //             inquirer
+            //             .prompt([
+            //                 {
+            //                     type: "list",
+            //                     name: "employee",
+            //                     message: "Which employee's role do you want to update?",
+            //                     choices: employeeChoices
+            //                 },
+            //                 {
+            //                     type: "list",
+            //                     name: "role",
+            //                     message: "Which role do you want to assign to the selected employee?",
+            //                     choices: roleChoices
+            //                 }
+            //                     ])
+            //                     .then(response => {
+            //                     db.query("SELECT * FROM roles WHERE rolesId = ?", response.role, (err, roleResponse) => {
+            //                     db.query("UPDATE employees SET id = id WHERE first_name = ? AND last_name = ?", [roleResponse.role, response.employee.split(" ")[0], response.employee.split(" ")[1]], (err, employeeResponse) => {
+            //                     err ? console.log(err) : console.log(`Updated ${response.employee.split(" ")[0]} ${response.employee.split(" ")[1]}'s role.`);
+            //                     start();
+            //                     });
+            //                     });
+            //                     })
+            //             .catch(err => console.log(err));
+            //         });
+            //     });
+                // break;
+            default:
+                start();
+        }})
         .catch(err => console.log(err));
 }
 
