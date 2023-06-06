@@ -99,7 +99,7 @@ const start = () => {
                 db.query("SELECT * FROM roles", (err, roleResult) => {
                     let roleChoices = [];
                     for (let i = 0; i < roleResult.length; i++) {
-                        roleChoices.push(roleResult[i].job_title);
+                        roleChoices.push(roleResult[i].job_title + " " + "," + roleResult[i].departmentsName);
                     }
                     db.query("SELECT * FROM employees", (err, managerResult) => {
                         let managerChoices = [];
@@ -135,11 +135,9 @@ const start = () => {
                             ])
                             .then(response => {
                                 db.query("SELECT * FROM roles WHERE job_title = ?", response.role, (err, roleResults) => {
-                                db.query("SELECT * FROM employees WHERE employee_id = ?", response.manager, (err, managerResults) => {
-                                db.query("INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)", [response.firstname, response.lastname, roleResults[0].rolesId, managerResult], (err, result) => {
+                                db.query("SELECT * FROM employees WHERE manager_id = ?", response.manager, (err, managerResults) => {
+                                db.query("INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)", [response.firstname, response.lastname, 4, response.manager.split(" ")[0]], (err, result) => {
                                     err ? console.log(err) : console.log(`${response.firstname} ${response.lastname} added to Employees.`), 
-                                    // console.log(managerResult), console.log(roleResult);
-                                    console.log(managerResults), console.log(roleResults[0].salary);
                                     start();
                             });
                             });
