@@ -155,12 +155,13 @@ const start = () => {
                     let employeeChoices = [];
                         for (let i = 0; i < employeeResult.length; i++) {
                             let fullName = [employeeResult[i].first_name, employeeResult[i].last_name];
-                            employeeChoices.push(fullName.join(" "));
+                            let employeeId = [employeeResult[i].id];
+                            employeeChoices.push(employeeId.join(" ") + (" ") + fullName.join(" "));
                         }
                     db.query("SELECT * FROM roles", (err, roleResult) => {
                         let roleChoices = [];
                         for (let i = 1; i < roleResult.length; i++) {
-                            roleChoices.push(roleResult[i].job_title);
+                            roleChoices.push(roleResult[i].job_title + "," + " " + roleResult[i].rolesId);
                         }
                         inquirer
                         .prompt([
@@ -179,9 +180,12 @@ const start = () => {
                                 ])
                                 .then(response => {
                                 db.query("SELECT * FROM roles WHERE rolesId = ?", response.role, (err, roleResponse) => {
-                                db.query("UPDATE employees SET id = id WHERE first_name = ? AND last_name = ?", [roleResponse.role, response.employee.split(" ")[0], response.employee.split(" ")[1]], (err, employeeResponse) => {
-                                err ? console.log(err) : console.log(`Updated ${response.employee.split(" ")[0]} ${response.employee.split(" ")[1]}'s role.`);
+                                db.query("SELECT * FROM employees where id = ?", response.employee, (err,result) => {
+                                db.query("UPDATE employees SET roles_id = ? WHERE first_name = ? AND last_name = ? AND id = ?", [response.role.split(", ")[1], response.employee.split(" ")[1], response.employee.split(" ")[2], response.employee.split(" ")[0]], (err, employeeResponse) => {
+                                err ? console.log(err) : console.log(`Updated ${response.employee.split(" ")[1]} ${response.employee.split(" ")[2]}'s role.`);
+                                console.log(response.employee);
                                 start();
+                                });
                                 });
                                 });
                                 })
