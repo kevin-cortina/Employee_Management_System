@@ -150,45 +150,45 @@ const start = () => {
                     });
                 });
     break;
-            // case "Update an employee role":
-            //     db.query("SELECT * FROM employees", (err, employeeResult) => {
-            //         let employeeChoices = [];
-            //             for (let i = 0; i < employeeResult.length; i++) {
-            //                 let fullName = [employeeResult[i].first_name, employeeResult[i].last_name];
-            //                 employeeChoices.push(fullName.join(" "));
-            //             }
-            //         db.query("SELECT * FROM roles", (err, roleResult) => {
-            //             let roleChoices = [];
-            //             for (let i = 1; i < roleResult.length; i++) {
-            //                 roleChoices.push(roleResult[i].job_title);
-            //             }
-            //             inquirer
-            //             .prompt([
-            //                 {
-            //                     type: "list",
-            //                     name: "employee",
-            //                     message: "Which employee's role do you want to update?",
-            //                     choices: employeeChoices
-            //                 },
-            //                 {
-            //                     type: "list",
-            //                     name: "role",
-            //                     message: "Which role do you want to assign to the selected employee?",
-            //                     choices: roleChoices
-            //                 }
-            //                     ])
-            //                     .then(response => {
-            //                     db.query("SELECT * FROM roles WHERE rolesId = ?", response.role, (err, roleResponse) => {
-            //                     db.query("UPDATE employees SET id = id WHERE first_name = ? AND last_name = ?", [roleResponse.role, response.employee.split(" ")[0], response.employee.split(" ")[1]], (err, employeeResponse) => {
-            //                     err ? console.log(err) : console.log(`Updated ${response.employee.split(" ")[0]} ${response.employee.split(" ")[1]}'s role.`);
-            //                     start();
-            //                     });
-            //                     });
-            //                     })
-            //             .catch(err => console.log(err));
-            //         });
-            //     });
-                // break;
+            case "Update an employee role":
+                db.query("SELECT * FROM employees", (err, employeeResult) => {
+                    let employeeChoices = [];
+                        for (let i = 0; i < employeeResult.length; i++) {
+                            let fullName = [employeeResult[i].first_name, employeeResult[i].last_name];
+                            employeeChoices.push(fullName.join(" "));
+                        }
+                    db.query("SELECT * FROM roles", (err, roleResult) => {
+                        let roleChoices = [];
+                        for (let i = 1; i < roleResult.length; i++) {
+                            roleChoices.push(roleResult[i].job_title);
+                        }
+                        inquirer
+                        .prompt([
+                            {
+                                type: "list",
+                                name: "employee",
+                                message: "Which employee's role do you want to update?",
+                                choices: employeeChoices
+                            },
+                            {
+                                type: "list",
+                                name: "role",
+                                message: "Which role do you want to assign to the selected employee?",
+                                choices: roleChoices
+                            }
+                                ])
+                                .then(response => {
+                                db.query("SELECT * FROM roles WHERE rolesId = ?", response.role, (err, roleResponse) => {
+                                db.query("UPDATE employees SET id = id WHERE first_name = ? AND last_name = ?", [roleResponse.role, response.employee.split(" ")[0], response.employee.split(" ")[1]], (err, employeeResponse) => {
+                                err ? console.log(err) : console.log(`Updated ${response.employee.split(" ")[0]} ${response.employee.split(" ")[1]}'s role.`);
+                                start();
+                                });
+                                });
+                                })
+                        .catch(err => console.log(err));
+                    });
+                });
+                break;
             default:
                 start();
         }})
