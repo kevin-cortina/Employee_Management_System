@@ -4,10 +4,18 @@ const inquirer = require('inquirer');
 jest.mock('inquirer');
 
 describe('module test', () => {
-    test('user input', async () => {
-        expect.assertion(1);
-        inquirer.prompt = jest.fn().mockResolvedValue({ email:'some@email.com'});
-
-        await expect(index()).resolves.toEqual({ email: 'some@email.com'});
-    });
+    let backup;
+    before(() => {
+      backup = inquirer.then;
+      inquirer.then = (start) => Promise.resolve({department: 'test'})
+    })
+  
+    it('should equal test', () => {
+      module({inquirer}).then(answers => answers.department.should.equal('test'))
+    })
+  
+    // restore
+    after(() => {
+      inquirer.prompt = backup
+    })
 });
