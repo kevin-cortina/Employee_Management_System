@@ -3,7 +3,9 @@
   # Employee_Management_System
   
   ## Description
-  This application helps organize a teams information by creating a display easily accessible by members of the team. User can add departments, add roles, and add/ update employees. 
+  This application helps organizes employee information by creating a display easily accessible terminal display. User can view all departments, view all roles, view all employees, add departments, add roles, and add/update employees. 
+  
+  This Employee management system uses NodeJs, with ExpressJs framework, Inquirer Package, and Mysql Database. Information is captured through the Inquirer package from the terminal and sent to Mysql DB from the use of ExpressJs, that set's and manages routes and servers. 
   
   ## Screenshot of application
    ![Screenshot of command-line](./assets/pictures/commandline.png)
