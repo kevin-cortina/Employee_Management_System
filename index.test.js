@@ -1,10 +1,13 @@
-const module = require('./index.js')
+import module from './node_modules';
+import inquirer from 'inquirer';
 
-describe('' () => {
-    const inquirer = {prompt: () => Promise.resolve({email:'test'}
-    )};
+jest.mock('inquirer');
 
-    it('should equal test', () => {
-        module({inquirer})(...).then(answers => answers.email.should.equal('test'))
-    })
+describe('module test', () => {
+    test('user input', async () => {
+        expect.assertion(1);
+        inquirer.prompt = jest.fn().mockResolvedValue({ email:'some@email.com'});
+
+        await expect(module()).resolves.toEqual({ email: 'some@email.com'});
+    });
 });
