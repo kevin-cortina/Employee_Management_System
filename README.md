@@ -38,7 +38,7 @@
   
 
   ## Features
-  Inquirer, Node.js, Express.js
+  Inquirer, Node.js, Express.js, MySql.DB
   
   ## Tests
   node run tests, to run tests.
