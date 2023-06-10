@@ -1,5 +1,5 @@
-import module from './node_modules';
-import inquirer from 'inquirer';
+const index  = require('./index.js');
+const inquirer = require('inquirer');
 
 jest.mock('inquirer');
 
@@ -8,6 +8,6 @@ describe('module test', () => {
         expect.assertion(1);
         inquirer.prompt = jest.fn().mockResolvedValue({ email:'some@email.com'});
 
-        await expect(module()).resolves.toEqual({ email: 'some@email.com'});
+        await expect(index()).resolves.toEqual({ email: 'some@email.com'});
     });
 });
