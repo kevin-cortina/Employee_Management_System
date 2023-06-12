@@ -1,13 +1,11 @@
 const index  = require('./index.js');
 const inquirer = require('inquirer');
 
-jest.mock('inquirer');
-
 describe('module test', () => {
     let backup;
     before(() => {
-      backup = inquirer.then;
-      inquirer.then = (start) => Promise.resolve({department: 'test'})
+      backup = inquirer.then.case;
+      inquirer.then.case = (start) => Promise.resolve({department: 'test'})
     })
   
     it('should equal test', () => {
