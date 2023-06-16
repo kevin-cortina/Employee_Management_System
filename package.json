@@ -8,6 +8,9 @@
   },
   "author": "Kevin Cortina",
   "license": "ISC",
+  "jest": {
+    "verbose": true
+  },
   "dependencies": {
     "console.table": "^0.10.0",
     "express": "^4.17.1",
@@ -15,6 +18,9 @@
     "mysql2": "^2.3.3"
   },
   "devDependencies": {
-    "jest": "^29.5.0"
+    "@types/jest": "^29.5.2",
+    "inquirer-test": "^2.0.1",
+    "jest": "^25.2.2",
+    "supertest": "^6.3.3"
   }
 }
